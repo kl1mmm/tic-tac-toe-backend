@@ -1,6 +1,4 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
-from .models import Profile
 
 
 # class UserModel:
@@ -9,15 +7,16 @@ from .models import Profile
 #         self.content = content
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ('id', 'patronymic_name', 'birth_date', 'sex')
+class ProfileSerializer(serializers.Serializer):
+    patronymic_name = serializers.CharField(max_length=150)
+    birth_date = serializers.DateField()
+    sex = serializers.CharField(max_length=1)
+    edited_date = serializers.DateTimeField()
 
 
-class UserSerializer(serializers.ModelSerializer):
-    detail = ProfileSerializer(source='profile')
-
-    class Meta:
-        model = User
-        fields = ('id', 'first_name', 'last_name', 'detail')
+class UserSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    username = serializers.CharField(max_length=150)
+    first_name = serializers.CharField(max_length=150)
+    last_name = serializers.CharField(max_length=150)
+    details = ProfileSerializer(source='profile')

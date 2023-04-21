@@ -10,6 +10,16 @@ class StatsViewSet(generics.ListCreateAPIView):
     queryset = PlayerStatistic.objects.all()
     serializer_class = StatsSerializer
 
+
+class StatsViewUpdate(generics.UpdateAPIView):
+    queryset = PlayerStatistic.objects.all()
+    serializer_class = StatsSerializer
+
+
+class StatsViewDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = PlayerStatistic.objects.all()
+    serializer_class = StatsSerializer
+
 # class StatsViewSetCustom(APIView):
 #     def get(self, request, *args, **kwargs):
 #         p = PlayerStatistic.objects.all()

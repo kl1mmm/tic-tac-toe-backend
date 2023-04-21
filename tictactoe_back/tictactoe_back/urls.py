@@ -16,16 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from users.views import UserViewSet
-from stats.views import StatsViewSet
-from games.views import GamesViewSet
+from users.views import UserViewSet, UserViewUpdate, UserViewDetail
+from stats.views import StatsViewSet, StatsViewUpdate, StatsViewDetail
+from games.views import GamesViewSet, GamesViewUpdate, GamesViewDetail
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/users_list/", UserViewSet.as_view()),
-    path("api/v1/users_list/<int:pk>/", UserViewSet.as_view()),
+    path("api/v1/users_list/<int:pk>/", UserViewUpdate.as_view()),
+    path("api/v1/users_detail/<int:pk>/", UserViewDetail.as_view()),
     path("api/v1/statistic_list/", StatsViewSet.as_view()),
-    path("api/v1/statistic_list/<int:pk>/", StatsViewSet.as_view()),
+    path("api/v1/statistic_list/<int:pk>/", StatsViewUpdate.as_view()),
+    path("api/v1/statistic_detail/<int:pk>/", StatsViewDetail.as_view()),
     path("api/v1/games_list/", GamesViewSet.as_view()),
-    path("api/v1/games_list/<int:pk>/", GamesViewSet.as_view())
+    path("api/v1/games_list/<int:pk>/", GamesViewUpdate.as_view()),
+    path("api/v1/games_detail/<int:pk>/", GamesViewDetail.as_view())
 ]

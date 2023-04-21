@@ -11,6 +11,15 @@ class GamesViewSet(generics.ListCreateAPIView):
     serializer_class = GameSerializer
 
 
+class GamesViewUpdate(generics.UpdateAPIView):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+
+
+class GamesViewDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+
 # class GamesViewSetCustom(APIView):
 #     def get(self, request, *args, **kwargs):
 #         g = Game.objects.all()

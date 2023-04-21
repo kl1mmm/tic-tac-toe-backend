@@ -23,6 +23,9 @@ from games.views import GamesViewSet
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/users_list/", UserViewSet.as_view()),
+    path("api/v1/users_list/<int:pk>/", UserViewSet.as_view()),
     path("api/v1/statistic_list/", StatsViewSet.as_view()),
+    path("api/v1/statistic_list/<int:pk>/", StatsViewSet.as_view()),
     path("api/v1/games_list/", GamesViewSet.as_view()),
+    path("api/v1/games_list/<int:pk>/", GamesViewSet.as_view()),
 ]

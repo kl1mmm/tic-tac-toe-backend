@@ -7,20 +7,40 @@ from rest_framework.views import APIView
 
 # Create your views here.
 class GamesViewSet(APIView):
-    def get(self, request):
-        u = Game.objects.all()
-        return Response({'games': GameSerializer(u, many=True).data})
+    def get(self, request, *args, **kwargs):
+        g = Game.objects.all()
+        return Response({"games": GameSerializer(g, many=True).data})
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         serializer = GameSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"game": serializer.data})
 
-        post_new = Game.objects.create(
-            player1=request.data['player1'],
-            player2=request.data['player1'],
-            date=request.data['date'],
-            game_timing=request.data['game_timing'],
-            winner=request.data['winner']
-        )
+    def put(self, request, *args, **kwargs):
+        pk = kwargs.get("pk", None)
+        if not pk:
+            return Response({"error": "Method PUT is not allowed."})
 
-        return Response({'game': GameSerializer(post_new).data})
+        try:
+            instance = Game.objects.get(pk=pk)
+        except:
+            Response({"error": "Object does not exists."})
+
+        serializer = GameSerializer(data=request.data, instance=instance)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"game": serializer.data})
+
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs.get("pk", None)
+        if not pk:
+            return Response({"error": "Method DELETE is not allowed."})
+
+        try:
+            record = Game.objects.get(pk=pk)
+            record.delete()
+        except:
+            return Response({"error": "Object does not exists"})
+
+        return Response({"game": "delete game " + str(pk)})

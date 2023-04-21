@@ -7,19 +7,40 @@ from rest_framework.views import APIView
 
 # Create your views here.
 class StatsViewSet(APIView):
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         p = PlayerStatistic.objects.all()
-        return Response({'stats': StatsSerializer(p, many=True).data})
+        return Response({"stats": StatsSerializer(p, many=True).data})
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         serializer = StatsSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"statistic": serializer.data})
 
-        post_new = PlayerStatistic.objects.create(
-            user=request.data['user'],
-            count_of_games=request.data['count_of_games'],
-            count_of_wins=request.data['count_of_games'],
-            count_of_loses=request.data['count_of_games']
-        )
+    def put(self, request, *args, **kwargs):
+        pk = kwargs.get("pk", None)
+        if not pk:
+            return Response({"error": "Method PUT is not allowed."})
 
-        return Response({'statistic': PlayerStatistic(post_new).data})
+        try:
+            instance = PlayerStatistic.objects.get(pk=pk)
+        except:
+            Response({"error": "Object does not exists."})
+
+        serializer = StatsSerializer(data=request.data, instance=instance)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"statistic": serializer.data})
+
+    def delete(self, request, *args, **kwargs):
+        pk = kwargs.get("pk", None)
+        if not pk:
+            return Response({"error": "Method DELETE is not allowed."})
+
+        try:
+            record = PlayerStatistic.objects.get(pk=pk)
+            record.delete()
+        except:
+            return Response({"error": "Object does not exists"})
+
+        return Response({"post": "delete statistic of " + str(pk)})

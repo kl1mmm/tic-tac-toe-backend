@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth.models import User
 
 
 # class UserModel:
@@ -20,3 +21,13 @@ class UserSerializer(serializers.Serializer):
     first_name = serializers.CharField(max_length=150)
     last_name = serializers.CharField(max_length=150)
     details = ProfileSerializer(source='profile', required=False)
+
+    def create(self, validated_data):
+        return User.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get("username", instance.username)
+        instance.first_name = validated_data.get("first_name", instance.first_name)
+        instance.last_name = validated_data.get("last_name", instance.last_name)
+        instance.save()
+        return instance

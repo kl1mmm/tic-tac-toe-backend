@@ -20,7 +20,7 @@ class Game(models.Model):
                                 blank=False,
                                 on_delete=models.SET('Аноним А.А.'),
                                 related_name='player2')
-    edited_date = models.DateField(("Дата"), default=timezone.now, null=False, blank=False)
+    date = models.DateField(("Дата"), default=timezone.now, null=False, blank=False)
     game_timing = models.CharField(("Продолжительность игры"), max_length=5, default='00:00', null=False, blank=False)
     winner = models.CharField(("Победитель"), max_length=5, choices=game_winner, blank=False, default='Cross')
 

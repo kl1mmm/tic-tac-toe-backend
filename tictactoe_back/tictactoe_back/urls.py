@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework import routers
 from users.views import *
 from stats.views import *
@@ -23,13 +23,16 @@ from games.views import *
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/v1/users/", UserViewSet.as_view()),
-    path("api/v1/users/<int:pk>/", UserViewUpdate.as_view()),
-    path("api/v1/users_delete/<int:pk>/", UserViewDestroy.as_view()),
+    path("api/v1/", include("djoser.urls")),
+    path("api/v1/", include("djoser.urls.authtoken")),
+    path("api/v1/profiles/", UserViewSet.as_view()),
+    path("api/v1/profile/<int:pk>/", UserViewUpdate.as_view()),
+    path("api/v1/profile_delete/<int:pk>/", UserViewDestroy.as_view()),
     path("api/v1/stats/", StatsViewSet.as_view()),
     path("api/v1/stats/<int:pk>/", StatsViewUpdate.as_view()),
     path("api/v1/stats_delete/<int:pk>/", StatsViewDestroy.as_view()),
     path("api/v1/games/", GamesViewSet.as_view()),
     path("api/v1/games/<int:pk>/", GamesViewUpdate.as_view()),
     path("api/v1/games_delete/<int:pk>/", GamesViewDestroy.as_view()),
+    path("api/v1/rating/", RatingViewSet.as_view()),
 ]

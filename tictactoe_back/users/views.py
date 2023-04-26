@@ -1,5 +1,6 @@
 from rest_framework import viewsets, generics
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
 from .models import Profile
 from django.contrib.auth.models import User
 
@@ -19,16 +20,23 @@ from .serializers import ProfileSerializer
 #     queryset = Profile.objects.all()
 #     serializer_class = ProfileSerializer
 
+class UserViewPagination(PageNumberPagination):
+    page_size = 25
+    page_query_param = 'page_size'
+    max_page_size = 10000
+
+
 class UserViewSet(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
+    pagination_class = UserViewPagination
 
 
 class UserViewUpdate(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (IsAdminOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
 class UserViewDestroy(generics.RetrieveDestroyAPIView):
@@ -46,7 +54,7 @@ class ProfileViewSet(generics.ListCreateAPIView):
 class ProfileViewUpdate(generics.RetrieveUpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    permission_classes = (IsAdminOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
 class ProfileViewDestroy(generics.RetrieveDestroyAPIView):

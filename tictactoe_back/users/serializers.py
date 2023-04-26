@@ -20,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'profile')
+        fields = ('id', 'username', 'first_name', 'last_name', 'date_joined', 'profile')
 
     def create(self, validated_data):
         profile_data = validated_data.pop('profile')
@@ -59,3 +59,17 @@ class UserSerializer(serializers.ModelSerializer):
         profile.save()
 
         return instance
+
+
+class ProfileNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ("patronymic_name", "sex")
+
+
+class UserNameSerializer(serializers.ModelSerializer):  # Сериализатор для страницы статистики игроков (stats.app)
+    profile = ProfileNameSerializer()
+
+    class Meta:
+        model = User
+        fields = ("id", "first_name", "last_name", "profile")

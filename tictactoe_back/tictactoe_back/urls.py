@@ -35,4 +35,5 @@ urlpatterns = [
     path("api/v1/games/<int:pk>/", GamesViewUpdate.as_view()),
     path("api/v1/games_delete/<int:pk>/", GamesViewDestroy.as_view()),
     path("api/v1/rating/", RatingViewSet.as_view()),
+    path("api/v1/lastgames/", LastGamesViewSet.as_view()),
 ]

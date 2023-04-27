@@ -1,3 +1,5 @@
+from django.forms.widgets import TextInput
+from django.utils.dateparse import parse_duration
 from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User

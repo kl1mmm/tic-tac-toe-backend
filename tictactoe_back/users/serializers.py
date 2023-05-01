@@ -65,7 +65,7 @@ class UserSerializer(WritableNestedModelSerializer):
     #     return instance
 
 
-class ProfileNameSerializer(serializers.ModelSerializer):
+class ProfileNameSerializer(serializers.ModelSerializer):  # Сериализатор для страницы статистики игроков (stats.app)
     class Meta:
         model = Profile
         fields = ("patronymic_name", "sex")
@@ -77,3 +77,22 @@ class UserNameSerializer(serializers.ModelSerializer):  # Сериализато
     class Meta:
         model = User
         fields = ("id", "first_name", "last_name", "profile")
+
+
+class ProfileCreatingSerializer(serializers.ModelSerializer):
+    # Сериализатор для создания профиля со страницы списка игроков (user.app) - функционал доступен лишь администрации!
+    class Meta:
+        model = Profile
+        fields = ("patronymic_name",
+                  "birth_date",
+                  "sex", "edited_date")
+
+
+class UserCreatingSerializer(WritableNestedModelSerializer):
+    profile = ProfileCreatingSerializer()
+
+    # Сериализатор для создания пользователя со страницы списка игроков (user.app) - функционал доступен лишь администрации!
+
+    class Meta:
+        model = User
+        fields = ("username", "first_name", "last_name", "date_joined", "email", "password", "is_active", "profile")

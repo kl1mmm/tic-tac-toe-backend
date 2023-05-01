@@ -15,12 +15,12 @@ class Game(models.Model):
     player1 = models.ForeignKey(User,
                                 null=False,
                                 blank=False,
-                                on_delete=models.SET('Аноним А.А.'),
+                                on_delete=models.SET(2),
                                 related_name='player1')
     player2 = models.ForeignKey(User,
                                 null=False,
                                 blank=False,
-                                on_delete=models.SET('Аноним А.А.'),
+                                on_delete=models.SET(2),
                                 related_name='player2')
     date = models.DateField(("Дата"), default=timezone.now, null=False, blank=False)
     game_timing = models.CharField(("Продолжительность игры"), max_length=5, default='00:00', null=False, blank=False)

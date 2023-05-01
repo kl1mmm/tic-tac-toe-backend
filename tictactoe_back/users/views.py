@@ -5,8 +5,8 @@ from .models import Profile
 from django.contrib.auth.models import User
 
 from .permissions import IsAdminOrReadOnly
-from .serializers import UserSerializer
-from .serializers import ProfileSerializer
+from .serializers import UserSerializer, UserCreatingSerializer
+from .serializers import ProfileSerializer, ProfileCreatingSerializer
 
 
 # Create your views here.
@@ -61,3 +61,17 @@ class ProfileViewDestroy(generics.RetrieveDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = (IsAdminOrReadOnly,)
+
+
+# Класс для создания профиля и пользователя из клиентской части приложения
+class ProfileViewAdd(generics.ListCreateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileCreatingSerializer
+    permission_classes = (IsAdminUser,)
+
+
+# Класс для создания профиля и пользователя из клиентской части приложения
+class UserViewAdd(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserCreatingSerializer
+    permission_classes = (IsAdminUser,)

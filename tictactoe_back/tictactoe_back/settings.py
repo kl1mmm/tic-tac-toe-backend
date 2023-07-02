@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    "channels",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -37,11 +38,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework.authtoken",
-    "djoser",
     "corsheaders",
+    "djoser",
     "users",
     "stats",
     "games",
+    "game_sess",
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -77,7 +79,18 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "tictactoe_back.wsgi.application"
+# WSGI_APPLICATION = "tictactoe_back.wsgi.application"
+
+ASGI_APPLICATION = "tictactoe_back.asgi.application"
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

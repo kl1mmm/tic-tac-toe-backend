@@ -25,6 +25,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/", include("djoser.urls")),
     path("api/v1/", include("djoser.urls.authtoken")),
+    path('api/v1/game_sessions/', include("game_sess.urls")),
     path("api/v1/profiles/", UserViewSet.as_view()),
     path("api/v1/profile/<int:pk>/", UserViewUpdate.as_view()),
     path("api/v1/profile_delete/<int:pk>/", UserViewDestroy.as_view()),
@@ -36,5 +37,5 @@ urlpatterns = [
     path("api/v1/games_delete/<int:pk>/", GamesViewDestroy.as_view()),
     path("api/v1/rating/", RatingViewSet.as_view()),
     path("api/v1/lastgames/", LastGamesViewSet.as_view()),
-    path("api/v1/create_user/", UserViewAdd.as_view())
+    path("api/v1/create_user/", UserViewAdd.as_view()),
 ]

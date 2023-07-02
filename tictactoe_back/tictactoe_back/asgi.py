@@ -11,6 +11,21 @@ import os
 
 from django.core.asgi import get_asgi_application
 
+from django.urls import path
+
+from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.security.websocket import AllowedHostsOriginValidator
+
+from users.consumers import OnlineStatusConsumer
+from users.middleware import TokenAuthMiddlewareStack
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tictactoe_back.settings")
 
-application = get_asgi_application()
+urlpatterns_websocket = [path('ws/online/', OnlineStatusConsumer)]
+
+application = ProtocolTypeRouter({
+    'http': get_asgi_application(),
+    'websocket': AllowedHostsOriginValidator(TokenAuthMiddlewareStack(
+        URLRouter(urlpatterns_websocket)
+    ))
+})

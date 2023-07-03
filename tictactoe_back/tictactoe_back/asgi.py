@@ -21,7 +21,7 @@ from users.middleware import TokenAuthMiddlewareStack
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tictactoe_back.settings")
 
-urlpatterns_websocket = [path('ws/online/', OnlineStatusConsumer)]
+urlpatterns_websocket = [path('ws/online/', OnlineStatusConsumer.as_asgi())]
 
 application = ProtocolTypeRouter({
     'http': get_asgi_application(),
